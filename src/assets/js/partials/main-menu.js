@@ -1,62 +1,7 @@
-const LUZ_MENUS = [
-    {
-        title: 'المتجر',
-        url: '/products',
-        children: [
-            { title: 'الكل (جميع المنتجات)', url: '/products' },
-            { title: 'منظفات', url: '/products?category=cleanser' },
-            { title: 'سيرومات', url: '/products?category=serum' },
-            { title: 'مرطبات', url: '/products?category=moisturizer' },
-            { title: 'واقي الشمس', url: '/products?category=sunscreen' }
-        ]
-    },
-    {
-        title: 'مشاكل البشرة',
-        url: '/products?concern=all',
-        children: [
-            { title: 'الحبوب والانسداد', url: '/products?concern=acne' },
-            { title: 'التصبغات والبقع الداكنة', url: '/products?concern=pigmentation' },
-            { title: 'البشرة الحساسة وحاجز البشرة', url: '/products?concern=barrier' },
-            { title: 'الجفاف ونقص الترطيب', url: '/products?concern=dryness' },
-            { title: 'الدهون والملمس', url: '/products?concern=oiliness' },
-            { title: 'الحماية من الشمس', url: '/products?concern=sun' }
-        ]
-    },
-    {
-        title: 'الروتينات',
-        url: '/products?routine=all',
-        children: [
-            { title: 'بوكس الحبوب', url: '/products?routine=acne-box' },
-            { title: 'بوكس التصبغات', url: '/products?routine=pigmentation-box' },
-            { title: 'بوكس البشرة الحساسة', url: '/products?routine=sensitive-box' },
-            { title: 'بوكس الدهون والملمس', url: '/products?routine=oil-box' }
-        ]
-    },
-    {
-        title: 'المكونات والدليل',
-        url: '/products?ingredient=all',
-        children: [
-            { title: 'حمض الساليسيليك (Salicylic Acid)', url: '/products?ingredient=Salicylic+acid' },
-            { title: 'النياسيناميد (Niacinamide)', url: '/products?ingredient=Niacinamide' },
-            { title: 'السيراميدات (Ceramides)', url: '/products?ingredient=Ceramides' },
-            { title: 'حمض الهيالورونيك (Hyaluronic Acid)', url: '/products?ingredient=Hyaluronic+acid' },
-            { title: 'دليل المكونات الشامل', url: '/p/ingredients' }
-        ]
-    },
-    {
-        title: 'من نحن',
-        url: '/p/about-us',
-        children: []
-    },
-    {
-        title: '✦ مستشارة Luz AI',
-        url: '#ai',
-        children: []
-    }
-];
-
 class NavigationMenu extends HTMLElement {
     connectedCallback() {
+        // Seed a skeleton placeholder shown until the menu data is fetched
+        // and render() replaces this innerHTML with the real menu.
         this.innerHTML = `
             <div class="main-menu-skel" aria-hidden="true">
                 <span class="header-skel-item header-skel-item--menu" style="width:80px"></span>
@@ -69,44 +14,19 @@ class NavigationMenu extends HTMLElement {
         salla.onReady()
             .then(() => salla.lang.onLoaded())
             .then(() => {
-                this.displayAllText = salla.lang.get('blocks.home.display_all') || 'عرض الكل';
-                this.moreText = salla.lang.get('common.titles.more') || 'المزيد';
+                this.menus = [];
+                this.displayAllText = salla.lang.get('blocks.home.display_all');
+                this.moreText = salla.lang.get('common.titles.more');
                 this.visibleMenus = [];
                 this.overflowMenus = [];
 
                 return salla.api.component.getMenus()
                 .then(({ data }) => {
-                    // Clone Luz del Sol menus
-                    const baseMenus = JSON.parse(JSON.stringify(LUZ_MENUS));
-
-                    // If store has custom categories that aren't the clothing defaults, attach them under Shop
-                    if (Array.isArray(data) && data.length) {
-                        const clothingKeywords = ['فساتين', 'بلايز', 'تنانير', 'جاكيتات', 'تخفيضات', 'dresses', 'skirts'];
-                        const relevantCats = data.filter(cat => {
-                            const name = (cat.title || '').toLowerCase();
-                            return !clothingKeywords.some(kw => name.includes(kw));
-                        });
-
-                        if (relevantCats.length > 0) {
-                            relevantCats.forEach(rc => {
-                                baseMenus[0].children.push({
-                                    title: rc.title,
-                                    url: rc.url,
-                                    children: rc.children || []
-                                });
-                            });
-                        }
-                    }
-
-                    this.menus = baseMenus;
-                    return this.render();
-                }).catch((error) => {
-                    salla.logger.error('salla-menu::Error fetching menus, fallback to Luz menus', error);
-                    this.menus = JSON.parse(JSON.stringify(LUZ_MENUS));
-                    return this.render();
+                    this.menus = data;
+                    return this.render()
                 }).then(() => {
                     this.initializeResponsiveMenu();
-                });
+                }).catch((error) => salla.logger.error('salla-menu::Error fetching menus', error));
             });
     }
 
@@ -149,9 +69,9 @@ class NavigationMenu extends HTMLElement {
         const menuImage = menu.image ? `<img src="${menu.image}" class="rounded-full" width="48" height="48" alt="${menu.title}" />` : '';
 
         return `
-        <li class="lg:hidden text-sm font-bold" ${menu.attrs || ''}>
+        <li class="lg:hidden text-sm font-bold" ${menu.attrs}>
             ${!this.hasChildren(menu) ? `
-                <a href="${menu.url}" aria-label="${menu.title || 'category'}" class="text-gray-500 ${menu.image ? '!py-3' : ''}" ${menu.link_attrs || ''}>
+                <a href="${menu.url}" aria-label="${menu.title || 'category'}" class="text-gray-500 ${menu.image ? '!py-3' : ''}" ${menu.link_attrs}>
                     ${menuImage}
                     <span>${menu.title || ''}</span>
                 </a>` :
@@ -179,8 +99,8 @@ class NavigationMenu extends HTMLElement {
     */
     getDesktopMenu(menu, isRootMenu, additionalClasses = '') {
         return `
-        <li class="${this.getDesktopClasses(menu, isRootMenu)} ${additionalClasses}" ${menu.attrs || ''} data-menu-item>
-            <a href="${menu.url}" aria-label="${menu.title || 'category'}" ${menu.link_attrs || ''}>
+        <li class="${this.getDesktopClasses(menu, isRootMenu)} ${additionalClasses}" ${menu.attrs} data-menu-item>
+            <a href="${menu.url}" aria-label="${menu.title || 'category'}" ${menu.link_attrs}>
                 <span>${menu.title}</span>
             </a>
             ${this.hasChildren(menu) ? `

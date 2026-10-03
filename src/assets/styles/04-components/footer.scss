@@ -1,62 +1,49 @@
-// =========================================================
-// Luz del Sol - Footer Aesthetic
-// =========================================================
 
 .store-footer {
-  position: relative;
-  background-color: var(--color-card, #FAF6EC);
-  color: var(--color-muted, #6E675B);
-  border-top: 1px solid var(--color-line, #DDD3BF);
-  margin-top: 3rem;
+  @apply relative bg-darker text-white mt-8 sm:mt-16;
 
-  a {
-    color: var(--color-muted, #6E675B);
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: var(--color-primary, #6A5A93);
-    }
+  a{
+    @apply transition-opacity hover:opacity-75;
   }
 
-  &__inner {
-    background-color: var(--color-card, #FAF6EC);
-    padding: 3rem 0;
-    border-bottom: 1px solid var(--color-line, #DDD3BF);
-  }
+  &__inner{
+    @apply bg-dark py-8 lg:py-16 border-b border-dashed border-b-white/10;
+  }  
 
-  h3 {
-    color: var(--color-text, #2E2A24);
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 1.25rem;
+  h3{
+    @apply text-lg font-bold mb-3 lg:mb-5;
   }
 
   .social-link {
-    border: 1px solid var(--color-line, #DDD3BF);
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--color-text, #2E2A24);
-    transition: all 0.2s ease;
+    @apply border rounded-full w-8 h-8 justify-center flex items-center hover:opacity-75 transition duration-300 text-sm
+  }
 
-    &:hover {
-      background: var(--color-lilac-soft, #EDE8F5);
-      color: var(--color-lilac-deep, #6A5A93);
-      border-color: var(--color-lilac-deep, #6A5A93);
+  .contact-social{
+    @apply mt-5 pt-5 border-t border-white/10;
+
+    ul {
+      @apply mb-0;
     }
   }
 
-  .contact-social {
-    margin-top: 1.25rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--color-line, #DDD3BF);
+  .footer-is-light & {
+    @apply bg-gray-50 text-gray-700;
+
+    .store-footer__inner {
+      @apply bg-gray-100 border-b-gray-200;
+    }
+
+    .social-link {
+      @apply border-gray-300;
+    }
+
+    .contact-social{
+      @apply border-gray-100;
+    }
   }
 }
 
-.copyright-text p {
-  color: var(--color-muted, #6E675B);
-  font-size: 0.85rem;
+
+.copyright-text p{
+  @apply text-gray-700;
 }
