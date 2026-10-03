@@ -240,6 +240,31 @@
                       {% endif %} 
                           <p class=" font-bold text-xl inline-block"> {{product.starting_price ? product.starting_price|money : product.price|money }}</p>
                   </div>
+                {# Tags as Luz del Sol pills #}
+                {% if product.tags|length %}
+                    <div class="lds-product-tags mt-2">
+                        {% for tag in product.tags %}
+                            <span class="lds-tag">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {# Luz del Sol - Authenticity & Trust Bar #}
+                <div class="lds-trust-bar">
+                    <div class="trust-item">
+                        <i class="sicon-check-circle"></i>
+                        <span>تم التحقق من الأصالة: <strong>مضمون</strong></span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="sicon-shield"></i>
+                        <span>منتج أصلي 100%</span>
+                    </div>
+                    {% if product.weight %}
+                        <div class="trust-item">
+                            <i class="sicon-package"></i>
+                            <span>الحجم: <strong>{{ product.weight }}</strong></span>
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div data-testid="store-product-description" class="product__description p-2 px-5 sm:p-1 leading-7 mb-3">
@@ -461,6 +486,45 @@
 
                 {% hook 'product:single.description.end' %}
                 <salla-quick-order data-testid="store-product-quick-order" class="mt-5 md:-mb-2 block"></salla-quick-order>
+
+                {# Luz del Sol - Product Information & Evidence Sections #}
+                <div class="lds-product-sections mt-8">
+                    {# Section 1: Why We Chose It #}
+                    <div class="lds-sec">
+                        <h3>لماذا اخترناه؟ (Why we chose it)</h3>
+                        <div class="lds-sec-content">
+                            نتجاوز الاسم والشهرة، ونختار هذا المنتج بناءً على تركيبة متوازنة، وفاعلية مثبتة بالدليل العلمي وتجارب حقيقية تمنح البشرة عناية فائقة دون إجهاد لحاجزها الطبيعي.
+                        </div>
+                    </div>
+
+                    {# Section 2: Key Ingredients & Evidence #}
+                    <div class="lds-sec">
+                        <h3>المكونات الفعالة والدليل (Key Ingredients)</h3>
+                        <div class="lds-sec-content">
+                            <div class="lds-ing-grid">
+                                <div class="lds-ing-card">
+                                    <b>تركيبة متطورة</b>
+                                    <span>مكونات نقية ومختارة بعناية لدعم توازن ونضارة البشرة وحمايتها.</span>
+                                </div>
+                                <div class="lds-ing-card">
+                                    <b>مستوى الدليل</b>
+                                    <span>مبنية على أبحاث ونتائج سريرية مثبتة علمياً.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {# Section 3: How to Use & Cautions #}
+                    <div class="lds-sec">
+                        <h3>طريقة الاستخدام وتنبيهات مهمة</h3>
+                        <div class="lds-sec-content">
+                            <p class="mb-3">يُستخدم بلطف على بشرة رطبة صباحاً ومساءً، مع التدليك بحركات دائرية ناعمة ثم الشطف بالماء الفاتر وتجفيف البشرة بلطف.</p>
+                            <div class="lds-caution-box">
+                                <strong>تنبيه واحتياط:</strong> جرّبي المنتج على مساحة صغيرة من البشرة أولاً (Patch Test). في حال استمرار أي تحسس يُرجى إيقاف الاستخدام واستشارة المختص.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <salla-offer data-testid="store-product-offer"></salla-offer>

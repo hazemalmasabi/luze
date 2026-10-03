@@ -1,28 +1,53 @@
+// =========================================================
+// Luz del Sol - Global Tokens & Colors
+// =========================================================
 
-// Colors
+// SCSS Variables mapped to CSS custom properties
 $main-color: var(--color-primary);
 $infinte-color: var(--infinte-color);
 $main-text-color: var(--main-text-color);
 
 :root {
-  --infinte-color: #c9c9c9;
-  --main-text-color: #231f1e;
-  --main-text-color-dark: #2b2d34;
+  --infinte-color: #DDD3BF;
+  --main-text-color: #2E2A24;
+  --main-text-color-dark: #211F1A;
 
-  /* current */
-  --color-primary: #5cd5c4;
-  --color-primary: #414042;
-  --color-primary-d: #272628;
-  --color-primary-l: #676668;
-  --color-primary-reverse: #ff6767;
-  --color-text: #7c8082;
-  --bg-gray: #c6c7ce1a;
-  --color-grey: #f5f7f9;
-  --color-light-grey: #eeeeee;
-  /* font-size */
-  --font-sm: 0.8685714286rem;
-  /* font-family: ; */
-  --font-main: "DINNextLTArabic";
+  /* Luz del Sol Brand Colors */
+  --color-primary: #6A5A93;
+  --color-primary-d: #564779;
+  --color-primary-l: #8372AC;
+  --color-primary-dark: #564779;
+  --color-primary-light: #8372AC;
+  --color-primary-reverse: #ffffff;
+
+  /* Organic Botanical Palette */
+  --color-cream: #F8F3E9;
+  --color-card: #FAF6EC;
+  --color-line: #DDD3BF;
+  --color-text: #2E2A24;
+  --color-muted: #6E675B;
+
+  /* Accent Tones */
+  --color-lilac: #CFC4E6;
+  --color-lilac-deep: #6A5A93;
+  --color-lilac-soft: #EDE8F5;
+  --color-sun: #F6E6A6;
+  --color-sun-deep: #C29A3B;
+  --color-sage: #5F7752;
+  --color-sage-soft: #D9E4CF;
+  --color-blue: #A9B9C4;
+
+  /* Salla Defaults Mapped */
+  --color-text: #2E2A24;
+  --bg-gray: #FAF6EC;
+  --color-grey: #F8F3E9;
+  --color-light-grey: #DDD3BF;
+
+  /* Font settings */
+  --font-sm: 0.875rem;
+  --font-main: "Tajawal", "Manrope", system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --s-radius: 14px;
 
   /* plugins */
   --mm-ocd-width: calc(100% - 51px);

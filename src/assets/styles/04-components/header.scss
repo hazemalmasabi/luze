@@ -293,3 +293,44 @@ salla-menu[topnav]:not(.hydrated) {
     );
   }
 }
+
+// =========================================================
+// Luz del Sol - Header & Navigation Aesthetic
+// =========================================================
+
+.store-header {
+  background-color: var(--color-cream, #F8F3E9);
+  border-bottom: 1px solid var(--color-line, #DDD3BF);
+
+  .top-navbar {
+    background-color: var(--color-cream, #F8F3E9);
+    border-bottom: 1px solid var(--color-line, #DDD3BF);
+
+    .s-search-input {
+      background-color: var(--color-card, #FAF6EC);
+      border: 1px solid var(--color-line, #DDD3BF);
+      border-radius: 10px;
+      color: var(--color-text, #2E2A24);
+    }
+  }
+
+  .main-nav-container {
+    background-color: var(--color-cream, #F8F3E9) !important;
+    border-bottom: 1px solid var(--color-line, #DDD3BF);
+    box-shadow: 0 2px 12px rgba(60, 50, 30, 0.05);
+
+    .navbar-brand img {
+      max-height: 48px;
+      width: auto;
+    }
+  }
+
+  /* Cart Badge */
+  salla-cart-summary {
+    .badge {
+      background-color: var(--color-sun, #F6E6A6) !important;
+      color: #2E2A24 !important;
+      font-weight: 700 !important;
+    }
+  }
+}

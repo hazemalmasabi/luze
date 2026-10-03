@@ -435,3 +435,196 @@ salla-quantity-input[max='1']{
     @apply cursor-not-allowed
   }
 }
+
+// =========================================================
+// Luz del Sol - Product Page & Card Enhancements
+// =========================================================
+
+.container--product-details {
+  .details-slider {
+    border: 1px solid var(--color-line, #DDD3BF);
+    border-radius: var(--s-radius, 14px);
+    background: var(--color-card, #FAF6EC);
+    overflow: hidden;
+  }
+
+  .main-content {
+    background: transparent;
+  }
+
+  [data-testid="store-product-title"] {
+    color: var(--color-text, #2E2A24);
+    font-size: 1.85rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 0.75rem;
+  }
+
+  [data-testid="store-product-price"] {
+    .total-price, p {
+      color: var(--color-text, #2E2A24) !important;
+      font-size: 1.45rem;
+      font-weight: 700;
+    }
+  }
+
+  .lds-product-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .lds-trust-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+    margin: 18px 0;
+    background: var(--color-card, #FAF6EC);
+    border: 1px solid var(--color-line, #DDD3BF);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    color: var(--color-muted, #6E675B);
+
+    .trust-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      i, svg {
+        color: var(--color-sage, #5F7752);
+        font-size: 1rem;
+      }
+
+      strong {
+        color: var(--color-text, #2E2A24);
+      }
+    }
+  }
+
+  .lds-sec {
+    border-top: 1px solid var(--color-line, #DDD3BF);
+    padding: 22px 0;
+
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.15rem;
+      color: var(--color-text, #2E2A24);
+      margin-bottom: 12px;
+
+      &:before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--color-sun-deep, #C29A3B);
+        display: inline-block;
+        flex-shrink: 0;
+      }
+    }
+
+    .lds-sec-content {
+      font-size: 0.95rem;
+      color: var(--color-muted, #6E675B);
+      line-height: 1.8;
+    }
+  }
+
+  .lds-ing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+
+    .lds-ing-card {
+      background: var(--color-card, #FAF6EC);
+      border: 1px solid var(--color-line, #DDD3BF);
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 0.88rem;
+
+      b {
+        color: var(--color-text, #2E2A24);
+        display: block;
+        margin-bottom: 4px;
+      }
+    }
+  }
+
+  .lds-caution-box {
+    border: 1px dashed var(--color-sage, #5F7752);
+    background: var(--color-sage-soft, #D9E4CF);
+    color: var(--color-text, #2E2A24);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 0.9rem;
+    margin: 16px 0;
+    line-height: 1.7;
+  }
+
+  .sticky-product-bar {
+    background: transparent;
+
+    salla-add-product-button {
+      .s-button-solid.s-button-primary,
+      .s-button-primary {
+        background-color: var(--color-lilac-deep, #6A5A93) !important;
+        border-color: var(--color-lilac-deep, #6A5A93) !important;
+        color: #ffffff !important;
+        border-radius: 10px !important;
+        min-height: 48px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+
+        &:hover {
+          filter: brightness(0.93);
+        }
+      }
+    }
+
+    salla-quantity-input {
+      .s-quantity-input-container {
+        border-color: var(--color-line, #DDD3BF);
+        border-radius: 10px;
+        background: var(--color-card, #FAF6EC);
+      }
+    }
+  }
+}
+
+salla-product-card {
+  .s-product-card {
+    background-color: var(--color-card, #FAF6EC) !important;
+    border: 1px solid var(--color-line, #DDD3BF) !important;
+    border-radius: var(--s-radius, 14px) !important;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 20px rgba(60, 50, 30, 0.08);
+      border-color: var(--color-line, #DDD3BF);
+    }
+
+    .s-product-card-title a {
+      color: var(--color-text, #2E2A24);
+      font-family: var(--font-main);
+      font-weight: 600;
+    }
+
+    .s-product-card-price {
+      color: var(--color-text, #2E2A24);
+      font-weight: 700;
+    }
+
+    salla-button.s-product-card-wishlist-btn {
+      background: rgba(250, 246, 236, 0.9);
+      border: 1px solid var(--color-line, #DDD3BF);
+      border-radius: 50%;
+    }
+  }
+}
