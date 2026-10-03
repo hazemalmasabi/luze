@@ -596,35 +596,122 @@ salla-quantity-input[max='1']{
   }
 }
 
-salla-product-card {
-  .s-product-card {
-    background-color: var(--color-card, #FAF6EC) !important;
-    border: 1px solid var(--color-line, #DDD3BF) !important;
-    border-radius: var(--s-radius, 14px) !important;
+salla-product-card,
+custom-product-card,
+.s-product-card-entry,
+.s-product-card {
+  display: flex !important;
+  flex-direction: column !important;
+  background-color: var(--color-card, #FAF6EC) !important;
+  border: 1px solid var(--color-line, #DDD3BF) !important;
+  border-radius: var(--s-radius, 14px) !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 10px rgba(60, 50, 30, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 220px;
+  width: 100%;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(60, 50, 30, 0.09);
+    border-color: var(--color-line, #DDD3BF) !important;
+
+    .s-product-card-image img {
+      transform: scale(1.04);
+    }
+  }
+
+  .s-product-card-image,
+  .s-product-card-image-full {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-color: var(--color-card, #FAF6EC);
+    border-bottom: 1px solid var(--color-line, #DDD3BF);
     overflow: hidden;
-    transition: all 0.3s ease;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+  }
+
+  .s-product-card-content {
+    padding: 16px !important;
+    background-color: var(--color-card, #FAF6EC) !important;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+  }
+
+  .s-product-card-title,
+  .s-product-card-content-title,
+  h3 {
+    a {
+      color: var(--color-text, #2E2A24) !important;
+      font-family: var(--font-main) !important;
+      font-weight: 700 !important;
+      font-size: 0.95rem !important;
+      line-height: 1.4;
+    }
+  }
+
+  .s-product-card-price,
+  .total-price,
+  .price {
+    color: var(--color-text, #2E2A24) !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+  }
+
+  /* Wishlist Button */
+  salla-button.s-product-card-wishlist-btn,
+  .s-product-card-wishlist-btn,
+  .fav {
+    position: absolute;
+    top: 10px;
+    inset-inline-end: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50% !important;
+    background: rgba(250, 246, 236, 0.92) !important;
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--color-line, #DDD3BF) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text, #2E2A24) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    z-index: 2;
+    transition: all 0.2s ease;
 
     &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 20px rgba(60, 50, 30, 0.08);
-      border-color: var(--color-line, #DDD3BF);
+      background: #ffffff !important;
+      transform: scale(1.1);
+      color: #ef4444 !important;
     }
+  }
 
-    .s-product-card-title a {
-      color: var(--color-text, #2E2A24);
-      font-family: var(--font-main);
-      font-weight: 600;
-    }
+  /* Add to Cart button in Card */
+  salla-add-product-button {
+    .s-button-solid.s-button-primary,
+    .s-button-primary,
+    button {
+      background-color: var(--color-lilac-deep, #6A5A93) !important;
+      border-color: var(--color-lilac-deep, #6A5A93) !important;
+      color: #ffffff !important;
+      border-radius: 10px !important;
+      min-height: 38px !important;
+      font-size: 0.85rem !important;
+      font-weight: 600 !important;
+      transition: filter 0.2s ease;
 
-    .s-product-card-price {
-      color: var(--color-text, #2E2A24);
-      font-weight: 700;
-    }
-
-    salla-button.s-product-card-wishlist-btn {
-      background: rgba(250, 246, 236, 0.9);
-      border: 1px solid var(--color-line, #DDD3BF);
-      border-radius: 50%;
+      &:hover {
+        filter: brightness(0.92);
+      }
     }
   }
 }
