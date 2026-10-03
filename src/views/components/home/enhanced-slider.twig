@@ -5,25 +5,54 @@
 | component.slides[].image       | string   | Image url                                                                    |
 | component.slides[].title       | ?string  |                                                                              |
 | component.slides[].description | ?string  |                                                                              |
+| component.slides[].button_text | ?string  | Optional call-to-action label                                                |
+| component.slides[].url         | ?string  | Optional call-to-action destination                                          |
 | component.slides               | object[] | list of slides                                                               |
 | position                       | int      | Sorting number start from zero                                               |
 #}
 <section component-id="{{ componentId }}" data-testid="store-home-slider" class="s-block s-block--hero-slider s-block--full-bg wide-placeholder"> 
     <salla-slider 
       id="main-slider-{{ position }}"
-      auto-play
       static-when-single
       slider-config='{"lazy":"false"}'
       {{ component.slides|length > 1 ? '' : 'show-controls="false"' }}
       type="fullwidth">
         <div slot="items">
             {% for slide in component.slides %}
-                <div class="swiper-slide w-full min-h-[300px] lg:min-h-[528px] bg-dark relative">
-					<div style="background-image: url({{ slide.image }});" class="{{ slide.without_overlay ? '' : 'overlay-bg' }} bg-cover bg-center absolute inset-0"></div>
-                    <div class="flex-center container pb-16 sm:pb-0 home-slider__content relative h-full">
-                        <div class=" w-4/6 text-center md:w-7/12 lg:w-5/12 text-white">
-                            <h2 data-swiper-parallax="-500" class="lg:text-title-size font-bold leading-tight mb-4">{{ slide.title }}</h2>
-                            <p data-swiper-parallax="-300" class="line-clamp-2 description">{{ slide.description }}</p>
+                <div class="swiper-slide lds-hero-slide w-full min-h-[300px] lg:min-h-[528px] relative">
+					{% if slide.image %}
+						<div style="background-image: url({{ slide.image }});" class="lds-hero-image bg-cover bg-center absolute inset-0"></div>
+					{% else %}
+						<div class="lds-hero-image lds-hero-art absolute inset-0" aria-hidden="true">
+							<svg viewBox="0 0 400 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+								<circle cx="285" cy="140" r="80" fill="var(--lds-sun)"/>
+								<g fill="none" stroke="var(--lds-sun-deep)" stroke-width="2" transform="translate(285 140)">
+									<ellipse cy="-44" rx="8" ry="22"/><ellipse cy="-44" rx="8" ry="22" transform="rotate(30)"/>
+									<ellipse cy="-44" rx="8" ry="22" transform="rotate(60)"/><ellipse cy="-44" rx="8" ry="22" transform="rotate(90)"/>
+									<ellipse cy="-44" rx="8" ry="22" transform="rotate(120)"/><ellipse cy="-44" rx="8" ry="22" transform="rotate(150)"/>
+									<ellipse cy="-44" rx="8" ry="22" transform="rotate(180)"/><ellipse cy="-44" rx="8" ry="22" transform="rotate(210)"/>
+									<ellipse cy="-44" rx="8" ry="22" transform="rotate(240)"/><ellipse cy="-44" rx="8" ry="22" transform="rotate(270)"/>
+									<ellipse cy="-44" rx="8" ry="22" transform="rotate(300)"/><ellipse cy="-44" rx="8" ry="22" transform="rotate(330)"/>
+									<circle r="25" fill="var(--lds-sun)"/>
+								</g>
+								<g fill="none" stroke="var(--lds-sage)" stroke-width="2">
+									<path d="M60 430C70 330 90 240 150 150"/><path d="M92 300c-30-6-46-26-52-50 28 2 46 20 52 50zM112 236c26-8 40-26 42-50-26 6-40 22-42 50z"/>
+								</g>
+								<rect x="150" y="250" width="70" height="140" rx="14" fill="var(--lds-card)"/>
+								<rect x="170" y="228" width="30" height="24" rx="4" fill="#8f8677"/>
+								<rect x="230" y="300" width="60" height="90" rx="12" fill="var(--lds-sage)"/>
+								<rect x="300" y="270" width="50" height="120" rx="12" fill="var(--lds-lilac-deep)"/>
+							</svg>
+						</div>
+					{% endif %}
+                    <div class="container lds-hero-content relative h-full">
+                        <div class="lds-hero-copy">
+                            <span class="lds-hero-eyebrow">{{ store.name }}</span>
+                            <h2 data-swiper-parallax="-500">{{ slide.title }}</h2>
+                            <p data-swiper-parallax="-300" class="description">{{ slide.description }}</p>
+                            {% if slide.button_text and slide.url %}
+                                <a class="lds-hero-cta" href="{{ slide.url }}">{{ slide.button_text }}</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

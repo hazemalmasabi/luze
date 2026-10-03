@@ -1,0 +1,29 @@
+{#
+| component.title       | string       | Section heading                  |
+| component.description | ?string      | Supporting copy                   |
+| component.button_text | ?string      | Category link label               |
+| component.categories  | Category[]   | Category selected for the button  |
+| position              | int          | Sorting number starts from zero   |
+#}
+{% set routine_category = component.categories|first %}
+<section component-id="{{ componentId }}" data-testid="store-home-routine-banner" class="s-block lds-routine-banner">
+    <div class="container lds-routine-banner__inner">
+        <div>
+            {% if component.eyebrow %}
+                <span class="lds-eyebrow">{{ component.eyebrow }}</span>
+            {% endif %}
+            {% if component.title %}
+                <h2>{{ component.title }}</h2>
+            {% endif %}
+            {% if component.description %}
+                <p>{{ component.description }}</p>
+            {% endif %}
+        </div>
+        {% if routine_category and routine_category.url and component.button_text %}
+            <a class="lds-routine-banner__link" href="{{ routine_category.url }}">
+                {{ component.button_text }}
+                <i class="sicon-arrow-left rtl:mr-2 ltr:ml-2 rtl:rotate-180" aria-hidden="true"></i>
+            </a>
+        {% endif %}
+    </div>
+</section>

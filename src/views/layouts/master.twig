@@ -86,12 +86,26 @@
     <style>
         :root {
             --font-main: '{{theme.font.name}}';
-            --color-primary: {{ theme.color.primary }};
-            --color-primary-dark: {{ theme.color.darker(0.15) }};
-            --color-primary-light: {{ theme.color.lighter(0.15) }};
-            --color-primary-reverse: {{ theme.color.reverse_text }};
+            --lds-cream: #F8F3E9;
+            --lds-card: #FAF6EC;
+            --lds-ink: #2E2A24;
+            --lds-muted: #6E675B;
+            --lds-line: #DDD3BF;
+            --lds-lilac: #CFC4E6;
+            --lds-lilac-soft: #EEE8F2;
+            --lds-lilac-deep: #6A5A93;
+            --lds-blue: #A9B9C4;
+            --lds-sun: #F6E6A6;
+            --lds-sun-deep: #C29A3B;
+            --lds-sage: #5F7752;
+            --lds-sage-soft: #D9E4CF;
+            --color-primary: var(--lds-lilac-deep);
+            --color-primary-dark: #54477B;
+            --color-primary-light: #897AAA;
+            --color-primary-reverse: #FFFFFF;
+            --color-text: var(--lds-ink);
             /* Theme specific variables */
-            --s-radius: .75rem;
+            --s-radius: 10px;
         }
     </style>
     {# tracking services, custom css feature. #}

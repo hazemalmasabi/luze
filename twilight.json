@@ -1,7 +1,7 @@
 {
     "name": {
-        "ar": "Luze",
-        "en": "luze"
+        "ar": "لوز ديل سول",
+        "en": "Luz del Sol"
     },
     "repository": "https://github.com/hazemalmasabi/luze",
     "author_email": "hazem.masabi@gmail.com",
@@ -20,6 +20,7 @@
         "component-testimonials",
         "component-square-photos",
         "component-store-features",
+        "component-routine-banner",
         "component-youtube",
         "menu-images",
         "filters"
@@ -286,25 +287,18 @@
         {
             "key": "186b3f4f-25cf-4d3c-abca-cef7eed6f0ab",
             "title": {
-                "en": "Enhances Animated Images",
-                "ar": " صور متحركة (محسنة)"
+                "en": "Luz del Sol hero",
+                "ar": "واجهة لوز ديل سول"
             },
             "icon": "sicon-image-carousel",
             "path": "home.enhanced-slider",
-            "image": "https://cdn.salla.network/images/themes/raed/preview-images/images-slider-enhancement.png?v=1.1",
             "is_default": true,
             "fields": [
                 {
                     "type": "static",
                     "format": "description",
-                    "id": "static-desc",
-                    "value": "<div ><img class='w-full' src='https://cdn.salla.network/images/themes/raed/preview-images/images-slider-enhancement.png?v=1.1'></div>"
-                },
-                {
-                    "type": "static",
-                    "format": "description",
                     "id": "enhance-slider-note",
-                    "value": "<div >هذا العنصر غير مناسب لعرض البنرات، يمكنك استخدام عنصر <strong>صور متحركة</strong> بدلاً منه لتظهر صورة البنر بشكل كامل</div>"
+                            "value": "<div >يعرض هذا القسم صورة رئيسية بجانب النص. اتركي الصورة فارغة لاستخدام الرسم التوضيحي المرفق بالثيم.</div>"
                 },
                 {
                     "id": "slides",
@@ -317,16 +311,10 @@
                     "item_label": "صورة",
                     "value": [
                         {
-                            "slides.image": "https://cdn.salla.sa/ZrBEO/MopzhoqpTkDObcKc8Q8n77AuydanfsGXdZO7iinH.jpg",
-                            "slides.title": "روِّج لمنتجاتك كصور متحركة",
-                            "slides.description": "اعرض المنتجات التي تود إبرازها لزوّار متجرك في هذه المساحة",
-                            "slides.without_overlay": false
-                        },
-                        {
-                            "slides.image": "https://cdn.salla.sa/ZrBEO/3gOhYSaIhaHxhH2IHWxJYDl9JHwxP6dGKiZFSq4K.jpg",
-                            "slides.title": "شجّع زوار متجرك على الشراء عبر عروض خاصة",
-                            "slides.description": "اعرض المنتجات التي تود إبرازها لزوّار متجرك في هذه المساحة",
-                            "slides.without_overlay": false
+                            "slides.image": null,
+                            "slides.title": "عناية بالبشرة، مختارة بعناية.",
+                            "slides.description": "نختار المنتجات بناءً على المكونات والتركيبة والدليل وتجارب الاستخدام.",
+                            "slides.button_text": "تسوّقي المجموعة"
                         }
                     ],
                     "fields": [
@@ -337,9 +325,9 @@
                             "id": "slides.image",
                             "label": "صورة البنر",
                             "format": "image",
-                            "required": true,
+                            "required": false,
                             "placeholder": null,
-                            "description": "* المقاس المناسب للصورة هو 900×600 بكسل"
+                            "description": "اختياري. عند تركه فارغًا يظهر الرسم التوضيحي للثيم."
                         },
                         {
                             "type": "string",
@@ -350,8 +338,8 @@
                             "value": null,
                             "required": false,
                             "format": "text",
-                            "description": "يتم عرضه على الصورة بحجم بارز جداً، مع إضافة تأثير دخول للنص يضيف لمسة جمالية على معرض الصور.",
-                            "placeholder": "يمكنك إضافة عنوان بارز هنا...",
+                            "description": "يظهر عنوانًا رئيسيًا بجانب الصورة.",
+                            "placeholder": "عناية مختارة بعناية",
                             "hide": false,
                             "minLength": 0,
                             "maxLength": 100
@@ -363,7 +351,7 @@
                             "multilanguage": true,
                             "id": "slides.description",
                             "value": null,
-                            "description": "يتم عرضه على الصورة بحجم أصغر من العنوان الرئيسي، مع إضافة تأثير دخول للنص يضيف لمسة جمالية على معرض الصور.",
+                            "description": "يظهر وصفًا مختصرًا بجانب العنوان.",
                             "format": "textarea",
                             "required": false,
                             "placeholder": "يمكنك إضافة تفاصيل إضافية هنا",
@@ -371,15 +359,26 @@
                             "maxLength": 255
                         },
                         {
-                            "type": "boolean",
-                            "icon": "sicon-toggle-off",
-                            "label": "إزالة طبقة التعتم",
-                            "description": null,
-                            "id": "slides.without_overlay",
-                            "format": "switch",
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "label": "نص زر التسوق",
+                            "multilanguage": true,
+                            "id": "slides.button_text",
+                            "value": null,
                             "required": false,
-                            "value": false,
-                            "selected": false
+                            "format": "text",
+                            "placeholder": "تسوّقي المجموعة"
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-link",
+                            "label": "رابط زر التسوق",
+                            "id": "slides.url",
+                            "value": null,
+                            "required": false,
+                            "format": "text",
+                            "placeholder": "/products",
+                            "description": "استخدمي رابطًا أو مسارًا لصفحة داخل المتجر."
                         }
                     ]
                 }
@@ -1136,6 +1135,76 @@
                     "required": false,
                     "minLength": 1,
                     "maxLength": 30
+                }
+            ]
+        },
+        {
+            "key": "luz-routine-banner",
+            "title": {
+                "en": "Routine boxes banner",
+                "ar": "بوكسات الروتين"
+            },
+            "icon": "sicon-packed-box",
+            "path": "home.routine-banner",
+            "is_default": true,
+            "fields": [
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "عبارة قصيرة",
+                    "multilanguage": true,
+                    "id": "eyebrow",
+                    "value": "روتين عناية مختار بعناية",
+                    "required": false,
+                    "format": "text",
+                    "maxLength": 80
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "عنوان القسم",
+                    "multilanguage": true,
+                    "id": "title",
+                    "value": "بوكسات روتين حول احتياج بشرتك",
+                    "required": false,
+                    "format": "text",
+                    "maxLength": 120
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-typography",
+                    "label": "نص توضيحي",
+                    "multilanguage": true,
+                    "id": "description",
+                    "value": "اختاري مجموعة منتجات منسّقة لتكمل روتينك اليومي.",
+                    "required": false,
+                    "format": "textarea",
+                    "maxLength": 255
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "نص الرابط",
+                    "multilanguage": true,
+                    "id": "button_text",
+                    "value": "اكتشفي المجموعة",
+                    "required": false,
+                    "format": "text",
+                    "maxLength": 80
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "label": "التصنيف المرتبط بالقسم",
+                    "id": "categories",
+                    "format": "dropdown-list",
+                    "description": null,
+                    "selected": [],
+                    "options": [],
+                    "required": false,
+                    "multichoice": true,
+                    "searchable": true,
+                    "source": "categories"
                 }
             ]
         }
