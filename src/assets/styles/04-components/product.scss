@@ -715,3 +715,68 @@ custom-product-card,
     }
   }
 }
+
+/* ================================================================
+   Luz del Sol - Shop Filter Dropdowns & Aside Styling
+   ================================================================ */
+.lds-shop-layout {
+  display: flex;
+  gap: 28px;
+}
+
+.lds-shop-filters {
+  .lds-filters-card {
+    background-color: var(--color-card, #FAF6EC) !important;
+    border: 1px solid var(--color-line, #DDD3BF) !important;
+    border-radius: var(--radius, 14px);
+    box-shadow: 0 4px 16px rgba(60, 50, 30, 0.05);
+  }
+
+  .lds-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .lds-filter-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-muted, #6E675B);
+  }
+
+  .lds-filter-select,
+  .lds-filter-input,
+  input[type="search"],
+  select {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 12px;
+    border: 1px solid var(--color-line, #DDD3BF) !important;
+    border-radius: 10px !important;
+    background-color: var(--color-card, #FAF6EC) !important;
+    color: var(--color-text, #2E2A24) !important;
+    font-family: inherit;
+    font-size: 0.88rem;
+    outline: none;
+    transition: all 0.2s ease;
+
+    &:focus {
+      border-color: var(--color-lilac-deep, #6A5A93) !important;
+      box-shadow: 0 0 0 2px rgba(106, 90, 147, 0.12);
+    }
+  }
+
+  .lds-range-slider {
+    accent-color: var(--color-lilac-deep, #6A5A93);
+    height: 6px;
+    border-radius: 4px;
+    background: var(--color-line, #DDD3BF);
+  }
+}
+
+@media (max-width: 1023px) {
+  #lds-filters-aside.hidden {
+    display: none !important;
+  }
+}

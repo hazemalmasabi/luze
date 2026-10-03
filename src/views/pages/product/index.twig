@@ -9,7 +9,7 @@
 | category.url               | string      |                                                                      |
 | category.sub_categories    | ?Category[] |                                                                      |
 | category.image             | ?string     |                                                                      |
-| filters                     | bool        | is filters allowed here or not                                        |
+| filters                    | bool        | is filters allowed here or not                                        |
 | sort_options[]             | SortList[]  |                                                                      |
 | sort_options[].id          | string      | ourSuggest, bestSell, topRated, priceFromTopToLow, priceFromLowToTop |
 | sort_options[].name        | string      |                                                                      |
@@ -19,82 +19,169 @@
 {% extends "layouts.master" %}
 {% block content %}
 	{% if theme.settings.get('product_index_show_breadcrumbs', true) %}
-		<div
-			class="container container--breadcrumbs">
-			{# add breadcumbs container in pages to make a space in case breadcrumbs is off #}
-			<nav class="breadcrumbs w-full py-5">
+		<div class="container container--breadcrumbs">
+			<nav class="breadcrumbs w-full py-4">
 				<salla-breadcrumb></salla-breadcrumb>
 			</nav>
 		</div>
 	{% endif %}
 
-	{#
-    Hook: product.index.before_products_group_with_filter
-    Fires before the products grid and filter sidebar wrapper.
-    Use this hook to inject content above the products listing area.
-  #}
 	<div class="s-blocks-wrapper s-before-products-list !mt-0">{% hook 'product.index.before_products_group_with_filter' %}</div>
 
-	<div class="container container--products-list flex items-start flex-col md:flex-row">
-		{% if filters %}
-			<button class="btn--close-sm close-filters sicon-cancel hidden"></button>
-			<salla-filters data-testid="store-products-filters" class="md:w-72 lg:sticky lg:top-20 flex-none" id="filters-menu"></salla-filters>
-		{% endif %}
+	<div class="container container--products-list py-4">
+		{# Shop Page Header (Luz del Sol Aesthetic) #}
+		<div class="mb-6">
+			<span class="lds-eyebrow text-xs uppercase font-semibold" style="color: var(--color-sage, #5F7752);">عناية بالبشرة، مختارة بعناية</span>
+			<h1 class="font-bold text-2xl md:text-3xl mt-1" style="font-family: var(--font-serif, 'Manrope', 'Tajawal', sans-serif); color: var(--color-text, #2E2A24);" id="page-main-title">{{ page.title|default('المتجر')|raw }}</h1>
+		</div>
 
-		<div class="main-content flex-1 w-full {{ filters ? 'ltr:lg:ml-8 rtl:lg:mr-8' : '' }}">
-			<div class="mb-4 sm:mb-6 flex justify-between items-center">
-				<h1 class="font-bold text-xl rtl:pl-3 ltr:pr-3" id="page-main-title">{{ page.title|raw }}</h1>
-				<div class="flex items-center space-x-2 rtl:space-x-reverse">
-					{% if filters %}
-						<a data-testid="store-products-filters-mobile-trigger" href="#filters-menu" class="filters-trigger bg-border-color text-primary lg:hidden mt-2">
-							<i class="sicon-filter text-gray-text text-2xl me-2.5"></i>
-						</a>
-					{% endif %}
+		{# Shop Layout: Dropdowns Filter Aside + Products Grid #}
+		<div class="lds-shop-layout flex flex-col lg:flex-row items-start gap-8">
+			
+			{# Mobile Filter Toggle Button #}
+			<button type="button" id="lds-mobile-filter-toggle" class="lg:hidden w-full flex items-center justify-between p-3.5 rounded-xl border border-[#DDD3BF] bg-[#FAF6EC] text-[#2E2A24] font-semibold shadow-sm transition">
+				<span class="flex items-center gap-2">
+					<i class="sicon-filter text-primary text-xl"></i>
+					<span>تصفية الخيارات والتصنيفات</span>
+				</span>
+				<i id="lds-filter-chevron" class="sicon-keyboard_arrow_down text-lg transition-transform duration-200"></i>
+			</button>
+
+			{# Filter Sidebar with Dropdown Selects (Luz del Sol) #}
+			<aside id="lds-filters-aside" class="lds-shop-filters w-full lg:w-72 shrink-0 hidden lg:block">
+				<div class="lds-filters-card p-5 rounded-2xl border border-[#DDD3BF] bg-[#FAF6EC] shadow-sm flex flex-col gap-4">
+					<div class="flex items-center justify-between pb-2 border-b border-[#DDD3BF]">
+						<h2 class="font-bold text-base" style="color: var(--color-text, #2E2A24);">التصفية</h2>
+						<button type="button" id="lds-reset-btn" class="text-xs font-medium text-primary hover:underline">إعادة ضبط</button>
+					</div>
+
+					{# 1. Search #}
+					<div class="lds-filter-group">
+						<label for="lds-search-input" class="lds-filter-label">البحث عن منتج</label>
+						<input id="lds-search-input" type="search" class="lds-filter-input" placeholder="ابحثي عن منتج...">
+					</div>
+
+					{# 2. Category Dropdown #}
+					<div class="lds-filter-group">
+						<label for="lds-cat-filter" class="lds-filter-label">الفئة</label>
+						<select id="lds-cat-filter" class="lds-filter-select">
+							<option value="">جميع الفئات</option>
+							<option value="cleanser">منظفات (Cleansers)</option>
+							<option value="serum">سيرومات (Serums)</option>
+							<option value="moisturizer">مرطبات (Moisturizers)</option>
+							<option value="sunscreen">واقي الشمس (Sun care)</option>
+							{% if category.sub_categories %}
+								{% for sub in category.sub_categories %}
+									<option value="{{ sub.name }}">{{ sub.name }}</option>
+								{% endfor %}
+							{% endif %}
+						</select>
+					</div>
+
+					{# 3. Skin Concern Dropdown #}
+					<div class="lds-filter-group">
+						<label for="lds-concern-filter" class="lds-filter-label">مشكلة البشرة</label>
+						<select id="lds-concern-filter" class="lds-filter-select">
+							<option value="">جميع المشاكل</option>
+							<option value="acne">الحبوب والانسداد (Acne)</option>
+							<option value="pigmentation">التصبغات والبقع الداكنة (Pigmentation)</option>
+							<option value="barrier">البشرة الحساسة وحاجز البشرة (Barrier)</option>
+							<option value="dryness">الجفاف ونقص الترطيب (Dryness)</option>
+							<option value="oiliness">الدهون والملمس (Oiliness)</option>
+							<option value="sun">الحماية من الشمس (Sun)</option>
+						</select>
+					</div>
+
+					{# 4. Skin Type Dropdown #}
+					<div class="lds-filter-group">
+						<label for="lds-type-filter" class="lds-filter-label">نوع البشرة</label>
+						<select id="lds-type-filter" class="lds-filter-select">
+							<option value="">جميع أنواع البشرة</option>
+							<option value="oily">دهنية (Oily)</option>
+							<option value="dry">جافة (Dry)</option>
+							<option value="combination">مختلطة (Combination)</option>
+							<option value="sensitive">حساسة (Sensitive)</option>
+						</select>
+					</div>
+
+					{# 5. Key Ingredient Dropdown #}
+					<div class="lds-filter-group">
+						<label for="lds-ing-filter" class="lds-filter-label">المكون الفعّال</label>
+						<select id="lds-ing-filter" class="lds-filter-select">
+							<option value="">جميع المكونات</option>
+							<option value="salicylic">حمض الساليسيليك (Salicylic acid)</option>
+							<option value="niacinamide">النياسيناميد (Niacinamide)</option>
+							<option value="ceramides">السيراميدات (Ceramides)</option>
+							<option value="hyaluronic">حمض الهيالورونيك (Hyaluronic acid)</option>
+						</select>
+					</div>
+
+					{# 6. Salla Sort Dropdown #}
 					{% if sort_options|length %}
-						<div class="flex items-center">
-							<label class="hidden sm:block rtl:ml-3 ltr:mr-3 whitespace-nowrap" for="product-filter">{{ trans('pages.categories.sorting') }}</label>
-							<select id="product-filter" class="form-input pt-0 pb-1 rtl:md:pl-10 ltr:md:pr-10">
+						<div class="lds-filter-group">
+							<label for="product-filter" class="lds-filter-label">{{ trans('pages.categories.sorting') }}</label>
+							<select id="product-filter" class="lds-filter-select">
 								{% for sort in sort_options %}
-									<option value="{{ sort.id }}" {{ sort.is_selected?'selected':'' }}>{{ sort.name }}</option>
+									<option value="{{ sort.id }}" {{ sort.is_selected ? 'selected' : '' }}>{{ sort.name }}</option>
 								{% endfor %}
 							</select>
 						</div>
 					{% endif %}
+
+					{# 7. Max Price Range Slider #}
+					<div class="lds-filter-group">
+						<div class="flex items-center justify-between mb-1">
+							<label for="lds-price-slider" class="lds-filter-label !mb-0">أعلى سعر:</label>
+							<span id="lds-price-val" class="text-sm font-bold text-primary">500 ر.س</span>
+						</div>
+						<input type="range" id="lds-price-slider" min="30" max="600" step="10" value="600" class="lds-range-slider w-full cursor-pointer">
+					</div>
+
+					{# Salla native filters hidden fallback #}
+					{% if filters %}
+						<div class="hidden">
+							<button class="btn--close-sm close-filters sicon-cancel hidden"></button>
+							<salla-filters id="filters-menu"></salla-filters>
+						</div>
+					{% endif %}
 				</div>
+			</aside>
+
+			{# Products Results Area #}
+			<div class="lds-products-main flex-1 w-full min-w-0">
+				
+				{# No Results Message #}
+				<div id="lds-no-results" class="hidden text-center py-12 px-6 rounded-2xl border border-[#DDD3BF] bg-[#FAF6EC] my-4">
+					<span class="inline-block text-3xl mb-2 text-primary">☼</span>
+					<h3 class="text-lg font-bold mb-1" style="color: var(--color-text, #2E2A24);">لا توجد منتجات مطابقة للخيارات المحددة</h3>
+					<p class="text-sm text-gray-500 mb-4">جرّبي تعديل خيارات التصفية أو مسح البحث</p>
+					<button type="button" id="lds-no-results-reset" class="btn sm">عرض كل المنتجات</button>
+				</div>
+
+				{% hook 'product:index.items.start' %}
+
+				{# Salla Product List #}
+				{% set sort_list = sort_options|default([]) %}
+				{% set first_sort = sort_list|first %}
+				{% set has_selected_sort = sort_list|filter(sort => sort.is_selected)|length %}
+				{% set fallback_sort = (sort_list|length and not has_selected_sort and first_sort.id != 'ourSuggest') ? first_sort.id : '' %}
+
+				<div class="flex">
+					<salla-products-list data-testid="store-products-list" class="flex-1 min-w-0" source="{{ page.slug }}" source-value="{{ page.id }}" sort-by="{{ fallback_sort }}" {{ filters ? 'filters-Results' : '' }}></salla-products-list>
+				</div>
+
+				{% hook 'product:index.items.end' %}
 			</div>
 
-			{% hook 'product:index.items.start' %}
-
-			{# nothing is marked selected when the store default sort is disabled, so send the shown option with the first request #}
-			{% set sort_list = sort_options|default([]) %}
-			{% set first_sort = sort_list|first %}
-			{% set has_selected_sort = sort_list|filter(sort => sort.is_selected)|length %}
-			{% set fallback_sort = (sort_list|length and not has_selected_sort and first_sort.id != 'ourSuggest') ? first_sort.id : '' %}
-
-			<div class="flex">
-				<salla-products-list data-testid="store-products-list" class="flex-1 min-w-0" source="{{ page.slug }}" source-value="{{ page.id }}" sort-by="{{ fallback_sort }}" {{ filters ?'filters-Results':'' }}></salla-products-list>
-			</div>
-
-			{% hook 'product:index.items.end' %}
 		</div>
 	</div>
 
-	{#
-    Hook: product.index.after_products_group_with_filter
-    Fires after the products grid and filter sidebar wrapper.
-    Use this hook to inject content below the products listing area.
-  #}
 	<div class="s-blocks-wrapper s-after-products-list">{% hook 'product.index.after_products_group_with_filter' %}</div>
 
 	{% if store.settings.category.testimonial_enabled %}
 		{% component 'home.testimonials' %}
 	{% endif %}
 
-	{#
-    Hook: product.index.after_testimonials
-    Fires after the testimonials (store reviews) section.
-    Use this hook to inject content below the testimonials area.
-  #}
 	<div class="s-blocks-wrapper s-after-testimonials">{% hook 'product.index.after_testimonials' %}</div>
 {% endblock %}
 
